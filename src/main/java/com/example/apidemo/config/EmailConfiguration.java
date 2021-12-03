@@ -2,14 +2,14 @@ package com.example.apidemo.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-@ComponentScan(basePackages = { "com.example.apidemo.mail" })
+@Configuration
 @PropertySource(value={"classpath:application.properties"})
 public class EmailConfiguration {
 
@@ -46,10 +46,13 @@ public class EmailConfiguration {
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.ssl.trust", "*");
         props.put("mail.smtp.auth", mailServerAuth);
         props.put("mail.smtp.starttls.enable", mailServerStartTls);
         props.put("mail.smtp.starttls.required", mailStartTlsRequired);
         props.put("mail.debug", "true");
+
+        mailSender.setJavaMailProperties(props);
 
         return mailSender;
     }

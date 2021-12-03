@@ -1,6 +1,5 @@
 package com.example.apidemo.aspect;
 
-import com.example.apidemo.mail.EmailSender;
 import com.example.apidemo.mail.EmailService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -34,7 +33,7 @@ public class ApiAspect {
 
         System.out.println("Elapse time is :" + result);
 
-//        emailService.sendSimpleMessage("test@yahoo.com", "From my test", "Elapse time was too long");
+        emailService.sendSimpleMessage("test@yahoo.com", "From my test", "Elapse time was too long");
 //        EmailSender emailSender = new EmailSender();
 //        emailSender.sendEMail();
 

@@ -4,6 +4,7 @@ import com.example.apidemo.config.ApiConfiguration;
 import com.example.apidemo.entity.Food;
 import com.example.apidemo.entity.ListOfFoods;
 import com.example.apidemo.events.ApiEvent;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -23,6 +24,13 @@ public class ApiController {
     private final ApiConfiguration configuration;
     private final ApplicationEventPublisher publisher;
 
+    @Value("${spring.proxy.hostname}")
+    private String proxyHost;
+
+    @Value("${spring.proxy.port}")
+    private int proxyPort;
+
+
 
     public ApiController(ApiConfiguration configuration, ApplicationEventPublisher publisher) {
         this.configuration = configuration;
@@ -35,11 +43,12 @@ public class ApiController {
         ApiEvent event = new ApiEvent(this, "ApiTest");
         publisher.publishEvent(event);
 
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.btk.bg", 80));
-        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setProxy(proxy);
-
-        RestTemplate restTemplate = new RestTemplate(requestFactory);
+//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
+//        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+//        requestFactory.setProxy(proxy);
+//
+//        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
